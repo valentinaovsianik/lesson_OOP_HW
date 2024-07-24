@@ -137,3 +137,51 @@ def test_update_product_quantity():
     assert product.quantity == 10
     product.quantity = 20
     assert product.quantity == 20
+
+
+def test_reset_category_and_product_counts():
+    """Проверяет сброс счетчиков категорий и продуктов"""
+    Category.category_count = 10
+    Category.product_count = 50
+
+    Category.category_count = 0
+    Category.product_count = 0
+
+    assert Category.category_count == 0
+    assert Category.product_count == 0
+
+
+def test_category_description_update():
+    """Проверяет обновление описания категории"""
+    category = Category("Test Category", "Initial Description", [])
+    category.description = "Updated Description"
+
+    assert category.description == "Updated Description"
+
+
+def test_category_with_large_number_of_products():
+    """Проверяет создание категории с большим количеством продуктов"""
+    products = [Product(f"Product {i}", "Description", 10.0, 1) for i in range(1000)]
+    category = Category("Large Category", "Категория с большим количеством продуктов", products)
+
+    assert category.name == "Large Category"
+    assert len(category.products) == 1000
+    assert Category.product_count == 1000
+
+
+def test_product_creation_with_long_name():
+    """Проверяет создание продукта с длинным именем"""
+    long_name = "A" * 1000
+    product = Product(long_name, "Описание с длинным именем", 100.0, 10)
+    assert product.name == long_name
+    assert product.description == "Описание с длинным именем"
+    assert product.price == 100.0
+    assert product.quantity == 10
+
+
+def test_product_price_update():
+    """Проверяет обновление цены продукта"""
+    product = Product("Test Product", "Test Description", 50.0, 10)
+    assert product.price == 50.0
+    product.price = 75.0
+    assert product.price == 75.0
