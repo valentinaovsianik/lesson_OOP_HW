@@ -21,6 +21,7 @@ def test_product_initialization(setup_data):
 
 
 def test_category_initialization(setup_data):
+    """Проверяет корректность инициализации объекта Category"""
     category = setup_data["category1"]
     assert category.name == "Смартфоны"
     assert (
