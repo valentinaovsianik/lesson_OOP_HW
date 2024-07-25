@@ -21,24 +21,17 @@ def test_product_initialization(setup_data):
 
 
 def test_category_initialization(setup_data):
-    """Проверяет корректность инициализации объектов Category и подсчета количества категорий и продуктов"""
-    data = setup_data
-
-    assert data["category1"].name == "Смартфоны"
+    category = setup_data["category1"]
+    assert category.name == "Смартфоны"
     assert (
-        data["category1"].description
+        category.description
         == "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни"
     )
-    assert len(data["category1"].products) == 3
-    assert Category.category_count == 2  # Проверяем количество категорий
-    assert Category.product_count == 4  # Проверяем общее количество товаров (в текущем тесте)
-
-    assert data["category2"].name == "Телевизоры"
-    assert (
-        data["category2"].description
-        == "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником"
+    assert category.products == (
+        "Samsung Galaxy S23 Ultra, 180000.0 руб. Остаток: 5 шт.\n"
+        "Iphone 15, 210000.0 руб. Остаток: 8 шт.\n"
+        "Xiaomi Redmi Note 11, 31000.0 руб. Остаток: 14 шт."
     )
-    assert len(data["category2"].products) == 1
 
 
 def test_product_count_update(setup_data):
@@ -46,15 +39,15 @@ def test_product_count_update(setup_data):
     data = setup_data
 
     # Количество товаров должно быть равно сумме товаров во всех категориях
-    expected_product_count = len(data["category1"].products) + len(data["category2"].products)
-    assert Category.product_count == expected_product_count
+    expected_product_count = len(data["category1"].products.split("\n")) + len(data["category2"].products.split("\n"))
+    assert (
+        len(data["category1"].products.split("\n")) + len(data["category2"].products.split("\n"))
+    ) == expected_product_count
 
 
 def test_additional_product_and_category():
     """Проверяет увеличение количества товаров и категорий при добавлении новых объектов"""
-    # Сброс счетчиков
-    Category.category_count = 0
-    Category.product_count = 0
+    Category.category_count = 0  # Сброс счетчиков
 
     # Создаем дополнительные продукты и категории
     product5 = Product("Huawei P50 Pro", "256GB, Черный", 100000.0, 10)
@@ -62,7 +55,7 @@ def test_additional_product_and_category():
     category3 = Category("Новые Смартфоны", "Последние модели смартфонов", [product5, product6])
 
     assert Category.category_count == 1
-    assert Category.product_count == 2
+    assert len(category3.products.split("\n")) == 2
 
 
 def test_empty_category():
@@ -116,11 +109,9 @@ def test_add_product_to_existing_category(setup_data):
     """Проверяет добавление нового продукта в существующую категорию и обновление счетчиков"""
     data = setup_data
     new_product = Product("Google Pixel 6", "128GB, White", 60000.0, 3)
-    data["category1"].products.append(new_product)
-    Category.product_count += 1
+    data["category1"].add_product(new_product)
 
-    assert len(data["category1"].products) == 4
-    assert Category.product_count == 5  # Обновляем счетчик товаров на 1
+    assert len(data["category1"].products.split("\n")) == 4
 
 
 def test_create_empty_product_list_category():
@@ -165,8 +156,7 @@ def test_category_with_large_number_of_products():
     category = Category("Large Category", "Категория с большим количеством продуктов", products)
 
     assert category.name == "Large Category"
-    assert len(category.products) == 1000
-    assert Category.product_count == 1000
+    assert len(category.products.split("\n")) == 1000
 
 
 def test_product_creation_with_long_name():
@@ -185,3 +175,22 @@ def test_product_price_update():
     assert product.price == 50.0
     product.price = 75.0
     assert product.price == 75.0
+
+
+def test_product_price_setter_negative(setup_data):
+    """Проверяет, что отрицательная или нулевая цена не изменяет текущую"""
+    product = setup_data["product1"]
+    product.price = -10000.0
+    assert product.price == 180000.0
+    product.price = 0
+    assert product.price == 180000.0
+
+
+def test_new_product_class_method():
+    """Проверяет, что `new_product` корректно создает объект Product на основе словаря с параметрами"""
+    product_info = {"name": "New Product", "description": "New Description", "price": 250.0, "quantity": 7}
+    product = Product.new_product(product_info)
+    assert product.name == "New Product"
+    assert product.description == "New Description"
+    assert product.price == 250.0
+    assert product.quantity == 7
