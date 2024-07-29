@@ -1,4 +1,3 @@
-import pytest
 from src.main import Category, Product
 
 
@@ -20,7 +19,7 @@ def test_product_initialization(setup_data):
     assert data["product3"].price == 31000.0
     assert data["product3"].quantity == 14
 
-    assert data["product4"].name == "55\" QLED 4K"
+    assert data["product4"].name == '55" QLED 4K'
     assert data["product4"].description == "Фоновая подсветка"
     assert data["product4"].price == 123000.0
     assert data["product4"].quantity == 7
@@ -50,13 +49,12 @@ def test_product_count_update(new_setup_data):
     products_in_category2 = data["category2"]._Category__products
 
     # Подсчитываем общее количество товаров в каждой категории
-    total_quantity = sum(product.quantity for product in products_in_category1) + \
-                     sum(product.quantity for product in products_in_category2)
+    total_quantity = sum(product.quantity for product in products_in_category1) + sum(
+        product.quantity for product in products_in_category2
+    )
 
     # Проверяем, что общее количество продуктов совпадает с фактическим значением
     assert total_quantity == Category.product_count
-
-
 
 
 def test_additional_product_and_category():
