@@ -37,6 +37,11 @@ class Product:
     def __str__(self):
         return f"{self.name}, {self.price} руб. Остаток: {self.quantity} шт."
 
+    def __add__(self, other):
+        if isinstance(other, Product):
+            return (self.price * self.quantity) + (other.price * other.quantity)
+        return NotImplemented
+
 
 class Category:
     """Класс категории продуктов"""
@@ -60,10 +65,7 @@ class Category:
     @property
     def products(self):
         """Возвращает список продуктов в виде строки"""
-        product_list = []
-        for product in self.__products:
-            product_list.append(f"{product.name}, {product.price} руб. Остаток: {product.quantity} шт.")
-        return "\n".join(product_list)
+        return "\n".join(str(product) for product in self.__products)
 
 
     def __str__(self):
