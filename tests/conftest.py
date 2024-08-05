@@ -13,6 +13,7 @@ def setup_data():
     product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
     product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
     product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+    product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
 
     # Создаем категории
     category1 = Category(
@@ -20,8 +21,6 @@ def setup_data():
         "Смартфоны, как средство не только коммуникации, но и получения дополнительных функций для удобства жизни",
         [product1, product2, product3],
     )
-
-    product4 = Product('55" QLED 4K', "Фоновая подсветка", 123000.0, 7)
     category2 = Category(
         "Телевизоры",
         "Современный телевизор, который позволяет наслаждаться просмотром, станет вашим другом и помощником",
@@ -32,6 +31,24 @@ def setup_data():
         "product1": product1,
         "product2": product2,
         "product3": product3,
+        "product4": product4,
         "category1": category1,
         "category2": category2,
     }
+
+
+@pytest.fixture
+def new_setup_data():
+    product1 = Product("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5)
+    product2 = Product("Iphone 15", "512GB, Gray space", 210000.0, 8)
+    product3 = Product("Xiaomi Redmi Note 11", "1024GB, Синий", 31000.0, 14)
+
+    # Создаем категории
+    category1 = Category("Смартфоны", "Описание категории", [product1, product2])
+    category2 = Category("Планшеты", "Описание категории", [product3])
+
+    Category.product_count = sum(product.quantity for product in category1._Category__products) + sum(
+        product.quantity for product in category2._Category__products
+    )
+
+    return {"category1": category1, "category2": category2}
