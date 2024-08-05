@@ -1,3 +1,6 @@
+from src.smartphone import Smartphone
+from src.lawngrass import LawnGrass
+
 class Product:
     """Класс продуктов"""
 
@@ -39,7 +42,10 @@ class Product:
 
     def __add__(self, other):
         if isinstance(other, Product):
-            return (self.price * self.quantity) + (other.price * other.quantity)
+            if type(self) == type(other):
+                return (self.price * self.quantity) + (other.price * other.quantity)
+            else:
+                TypeError("Нельзя складывать продукты разных классов")
         return NotImplemented
 
 
