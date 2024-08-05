@@ -1,4 +1,5 @@
 import pytest
+
 from src.category import Category
 from src.product import Product
 
@@ -82,5 +83,3 @@ def test_category_with_large_number_of_products():
 
     assert category.name == "Large Category"
     assert len(category.products.split("\n")) == 1000
-
-

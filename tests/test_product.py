@@ -1,5 +1,7 @@
 import pytest
+
 from src.product import Product
+
 
 def test_product_initialization(setup_data):
     """Проверяет корректность инициализации объектов Product"""
@@ -100,4 +102,3 @@ def test_new_product_class_method():
     assert product.description == "New Description"
     assert product.price == 250.0
     assert product.quantity == 7
-

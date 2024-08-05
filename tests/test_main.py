@@ -1,9 +1,11 @@
-import pytest
 from unittest.mock import patch
+
+import pytest
+
 from src.category import Category
+from src.lawngrass import LawnGrass
 from src.product import Product
 from src.smartphone import Smartphone
-from src.lawngrass import LawnGrass
 
 
 def test_additional_product_and_category():
@@ -32,19 +34,14 @@ def test_reset_category_and_product_counts():
 
 
 def test_smartphone_lawn_grass_addition():
-    smartphone = Smartphone("Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, 95.5,
-                            "S23 Ultra", 256, "Серый")
+    smartphone = Smartphone(
+        "Samsung Galaxy S23 Ultra", "256GB, Серый цвет, 200MP камера", 180000.0, 5, 95.5, "S23 Ultra", 256, "Серый"
+    )
     grass = LawnGrass("Газонная трава", "Элитная трава для газона", 500.0, 20, "Россия", "7 дней", "Зеленый")
 
     # Тестирование попытки сложения объектов разных типов
     with pytest.raises(TypeError, match="Нельзя сложить объекты разных типов"):
         smartphone + grass
-
-
-def test_smartphone_lawn_grass_addition(smartphone1, grass1):
-    """Проверяет, что при попытке сложения объектов разных типов возникает исключение TypeError"""
-    with pytest.raises(TypeError, match="Нельзя сложить объекты разных типов"):
-        smartphone1 + grass1
 
 
 def test_category_product_count(category_smartphones, smartphone3):

@@ -39,7 +39,7 @@ class Product:
 
     def __add__(self, other):
         if isinstance(other, Product):
-            if type(self) == type(other):
+            if isinstance(self, type(other)):
                 return (self.price * self.quantity) + (other.price * other.quantity)
             else:
                 raise TypeError("Нельзя складывать продукты разных классов")
