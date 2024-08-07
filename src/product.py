@@ -1,6 +1,7 @@
 from src.base_product import BaseProduct
 from src.print_mixin import PrintMixin
 
+
 class Product(PrintMixin, BaseProduct):
     """Класс продуктов, наследующий от абстрактного базового класса"""
 
@@ -28,7 +29,6 @@ class Product(PrintMixin, BaseProduct):
             raise ValueError("Цена не должна быть нулевая или отрицательная")
         else:
             self.__price = value
-
 
     @classmethod
     def new_product(cls, product_info):

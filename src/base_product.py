@@ -1,18 +1,8 @@
 from abc import ABC, abstractmethod
 
+
 class BaseProduct(ABC):
     """Абстрактный базовый класс продуктов"""
-
-    @abstractmethod
-    def __str__(self):
-        """Абстрактный метод для строкового представления продукта"""
-        pass
-
-
-    @abstractmethod
-    def __add__(self, other):
-        """Абстрактный метод для сложения продуктов"""
-        pass
 
     @classmethod
     @abstractmethod
