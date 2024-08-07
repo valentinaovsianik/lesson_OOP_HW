@@ -16,6 +16,8 @@ class Category:
         self.description = description
         self.__products = products  # Приватный атрибут для хранения продуктов
         Category.category_count += 1  # Увеличиваем счетчик категорий при создании нового объекта
+        Category.product_count += sum(product.quantity for product in products)  # Увеличиваем общий счетчик на количество добавленных продуктов
+
 
     def add_product(self, product):
         """Добавляет продукт в категорию"""
