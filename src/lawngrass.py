@@ -8,6 +8,13 @@ class LawnGrass(Product):
         self.germination_period = germination_period
         self.color = color
 
+    def __str__(self):
+        return (
+            f"{self.name} ({self.color}), {self.price} руб. "
+            f"Страна: {self.country}, Период всходов: {self.germination_period} дней, "
+            f"Остаток: {self.quantity} шт."
+        )
+
     def __add__(self, other):
         if isinstance(other, LawnGrass):
             return (self.price * self.quantity) + (other.price * other.quantity)

@@ -80,4 +80,6 @@ def test_category_with_large_number_of_products():
     category = Category("Large Category", "Категория с большим количеством продуктов", products)
 
     assert category.name == "Large Category"
+    assert category.description == "Категория с большим количеством продуктов"
     assert len(category.products.split("\n")) == 1000
+    assert Category.product_count == 1000

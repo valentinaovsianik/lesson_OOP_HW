@@ -86,10 +86,21 @@ def test_product_price_update():
 def test_product_price_setter_negative(setup_data):
     """Проверяет, что отрицательная или нулевая цена не изменяет текущую"""
     product = setup_data["product1"]
-    product.price = -10000.0
-    assert product.price == 180000.0
-    product.price = 0
-    assert product.price == 180000.0
+    # Проверка установки отрицательной цены
+    try:
+        product.price = -10000.0
+    except ValueError:
+        assert product.price == 180000.0  # Проверяем, что цена не изменилась
+    else:
+        assert False, "Expected ValueError for negative price"
+
+    # Проверка установки нулевой цены
+    try:
+        product.price = 0
+    except ValueError:
+        assert product.price == 180000.0  # Проверяем, что цена не изменилась
+    else:
+        assert False, "Expected ValueError for zero price"
 
 
 def test_new_product_class_method():
