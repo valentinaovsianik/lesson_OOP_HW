@@ -31,6 +31,22 @@ class Category:
         """Возвращает список продуктов в виде строки"""
         return "\n".join(str(product) for product in self.__products)
 
+
+    def middle_price(self):
+        """Подсчитывает средний ценник всех товаров в категории"""
+        try:
+            total_price = sum(product.price * product.quantity for product in self.__products)
+            total_quantity = sum(product.quantity for product in self.__products)
+            middle_price = total_price / total_quantity
+            return middle_price
+        except ZeroDivisionError:
+            print("На ноль делить нельзя.")
+            return 0  # Возвращаем 0, если товаров нет и происходит деление на ноль
+        except Exception as e:  # Обработка других возможных непредвиденных исключений
+            print(f"Произошла ошибка: {e}")
+            return 0
+
+
     def __str__(self):
         total_quantity = sum(product.quantity for product in self.__products)
         return f"{self.name}, количество продуктов: {total_quantity} шт."
