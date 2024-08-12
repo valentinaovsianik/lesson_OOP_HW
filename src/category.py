@@ -31,7 +31,6 @@ class Category:
         """Возвращает список продуктов в виде строки"""
         return "\n".join(str(product) for product in self.__products)
 
-
     def middle_price(self):
         """Подсчитывает средний ценник всех товаров в категории"""
         try:
@@ -45,7 +44,6 @@ class Category:
         except Exception as e:  # Обработка других возможных непредвиденных исключений
             print(f"Произошла ошибка: {e}")
             return 0
-
 
     def __str__(self):
         total_quantity = sum(product.quantity for product in self.__products)
