@@ -1,3 +1,4 @@
+import pytest
 from src.product import Product
 
 
@@ -41,11 +42,9 @@ def test_invalid_product_creation():
 
 
 def test_product_with_zero_price_and_quantity():
-    """Проверяет возможность создания продукта с нулевой ценой и количеством"""
-    product = Product("Free Sample", "Sample product", 0.0, 0)
-    assert product.name == "Free Sample"
-    assert product.price == 0.0
-    assert product.quantity == 0
+    """Проверяет, что продукт с нулевой ценой и количеством вызывает ValueError"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Free Sample", "Sample product", 0.0, 0)
 
 
 def test_add_product_to_existing_category(setup_data):
@@ -111,3 +110,9 @@ def test_new_product_class_method():
     assert product.description == "New Description"
     assert product.price == 250.0
     assert product.quantity == 7
+
+
+def test_product_creation_with_zero_quantity():
+    """Тест создания продукта с нулевым количеством"""
+    with pytest.raises(ValueError, match="Товар с нулевым количеством не может быть добавлен"):
+        Product("Бракованный товар", "Неверное количество", 1000.0, 0)

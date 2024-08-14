@@ -83,3 +83,18 @@ def test_category_with_large_number_of_products():
     assert category.description == "Категория с большим количеством продуктов"
     assert len(category.products.split("\n")) == 1000
     assert Category.product_count == 1000
+
+
+def test_middle_price_with_products():
+    """Тест для подсчета средней цены для категории с продуктами"""
+    product1 = Product("Product 1", "Description 1", 100.0, 2)
+    product2 = Product("Product 2", "Description 2", 200.0, 3)
+    category = Category("Category with Products", "Description", [product1, product2])
+    expected_middle_price = (100.0 * 2 + 200.0 * 3) / (2 + 3)
+    assert category.middle_price() == expected_middle_price
+
+
+def test_middle_price_with_no_products():
+    """Тест средней цены для категории без продуктов (деление на ноль)"""
+    category = Category("Empty Category", "No products", [])
+    assert category.middle_price() == 0
